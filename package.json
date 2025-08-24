@@ -1,25 +1,20 @@
 {
   "name": "diailog",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "AI Philosophy Debate Platform",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "deploy": "vercel"
   },
-  "keywords": [],
+  "keywords": ["ai", "philosophy", "debate", "openai"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "express-rate-limit": "^8.0.1",
-    "openai": "^5.15.0"
+    "openai": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "vercel": "^32.0.0"
   }
 }
