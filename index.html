@@ -2048,15 +2048,15 @@ Topic of discussion: "${topic}"
 ${conversationHistory.length > 0 ? `Previous conversation:
 ${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}
 
-Continue this philosophical discussion from your perspective. If there are previous points made, engage with the core ideas naturally without repeating exact phrases.` : 'You speak first on this topic.'}
+Now respond to what ${rightName} just said. Build upon their arguments, challenge their points respectfully, or find common ground.` : 'You speak first on this topic.'}
 
-Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while contributing meaningfully to the ongoing debate.
+Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with the discussion.
 
 IMPORTANT: 
 - Respond in ${responseLanguage} language
 - Do NOT include your character name at the beginning of your response
-- Engage with the debate naturally without directly quoting previous statements
-- Present your philosophical position as part of the ongoing discussion`
+- Don't repeat their exact words, but engage with their ideas naturally
+- Give only your direct response, without any prefixes like "${leftName}:" or similar`
                     }
                 ];
 
@@ -2084,15 +2084,15 @@ Topic of discussion: "${topic}"
 Previous conversation:
 ${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}
 
-Continue this philosophical discussion from your perspective. Engage thoughtfully with the ideas that have been presented, offering your own philosophical insights that relate to the ongoing debate.
+Now respond directly to what ${leftName} just said. Address their specific points, provide counterarguments, or build upon shared ideas. Make this a real dialogue, not just separate statements.
 
-Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while advancing the discussion forward.
+Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with ${leftName}'s arguments.
 
 IMPORTANT: 
 - Respond in ${responseLanguage} language
 - Do NOT include your character name at the beginning of your response
-- Engage with the philosophical themes naturally without direct quotes
-- Build upon the debate with your unique philosophical perspective`
+- Don't repeat their exact words, but engage with their ideas naturally
+- Give only your direct response, without any prefixes like "${rightName}:" or similar`
                     }
                 ];
 
