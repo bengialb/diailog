@@ -2046,14 +2046,16 @@ Topic of discussion: "${topic}"
 ${conversationHistory.length > 0 ? `Previous conversation:
 ${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}
 
-Now respond to what ${rightName} just said. Build upon their arguments, challenge their points respectfully, or find common ground.` : 'You speak first on this topic.'}
+Continue this philosophical discussion from your perspective.` : 'You speak first on this topic.'}
 
-Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with the discussion.
+Keep your response concise (2-3 sentences max). Stay true to your philosophical stance and present your own unique perspective on the topic.
 
 IMPORTANT: 
 - Respond in ${responseLanguage} language
 - Do NOT include your character name at the beginning of your response
-- Give only your direct response, without any prefixes like "${leftName}:" or similar`
+- Do NOT repeat or summarize what others have said
+- Give only your direct philosophical viewpoint
+- Be natural and conversational, not repetitive`
                     }
                 ];
 
@@ -2081,14 +2083,16 @@ Topic of discussion: "${topic}"
 Previous conversation:
 ${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}
 
-Now respond directly to what ${leftName} just said. Address their specific points, provide counterarguments, or build upon shared ideas. Make this a real dialogue, not just separate statements.
+Continue this philosophical discussion from your perspective. Engage with the ideas that have been presented so far.
 
-Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with ${leftName}'s arguments.
+Keep your response concise (2-3 sentences max). Stay true to your philosophical stance and present your own viewpoint on the topic.
 
 IMPORTANT: 
 - Respond in ${responseLanguage} language
 - Do NOT include your character name at the beginning of your response
-- Give only your direct response, without any prefixes like "${rightName}:" or similar`
+- Do NOT repeat or summarize what others have said
+- Give only your direct philosophical viewpoint
+- Be natural and conversational, not repetitive`
                     }
                 ];
 
