@@ -945,23 +945,315 @@
             border: none;
         }
 
+        /* Tablet Landscape (1400px and below) */
         @media (max-width: 1400px) {
             .main-content {
-                grid-template-columns: 300px 1fr 300px;
+                grid-template-columns: 320px 1fr 320px;
+                gap: 15px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .avatar-container {
+                width: 150px;
+                min-height: 200px;
+            }
+            
+            .character-prompt {
+                height: 100px;
             }
         }
 
+        /* Tablet Portrait (1200px and below) */
         @media (max-width: 1200px) {
             .main-content {
                 grid-template-columns: 1fr;
-                max-width: 800px;
+                gap: 20px;
+                max-width: 900px;
                 margin: 0 auto;
             }
             
             .character-panel {
                 display: grid;
-                grid-template-columns: 150px 1fr;
+                grid-template-columns: 180px 1fr;
                 gap: 20px;
+                align-items: start;
+            }
+            
+            .avatar-container {
+                width: 160px;
+                min-height: 210px;
+            }
+            
+            .character-config {
+                gap: 12px;
+            }
+            
+            .character-prompt {
+                height: 90px;
+            }
+            
+            .header {
+                padding: 12px 20px;
+            }
+            
+            .logo {
+                width: 250px;
+            }
+        }
+
+        /* Large Mobile (768px and below) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .header {
+                padding: 10px 15px;
+                margin: 8px 0;
+            }
+            
+            .logo {
+                width: 200px;
+            }
+            
+            .header p {
+                font-size: 0.9em;
+            }
+            
+            .language-selector {
+                top: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+            
+            .lang-btn {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                flex: 1;
+                min-height: 0;
+            }
+            
+            .character-panel {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 12px;
+            }
+            
+            .avatar-section {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .avatar-container {
+                width: 120px;
+                min-height: 160px;
+                margin: 0 auto 10px;
+            }
+            
+            .character-config {
+                gap: 10px;
+            }
+            
+            .character-prompt {
+                height: 80px;
+                font-size: 0.9em;
+            }
+            
+            .character-select,
+            .character-name {
+                font-size: 0.9em;
+                padding: 10px 12px;
+            }
+            
+            .form-group label {
+                font-size: 0.85em;
+                margin-bottom: 6px;
+            }
+            
+            .chat-container {
+                min-height: 400px;
+            }
+            
+            .chat-header {
+                padding: 15px 20px;
+            }
+            
+            .chat-header h2 {
+                font-size: 1.1em;
+            }
+            
+            .rounds-slider {
+                width: 100px;
+            }
+            
+            .chat-messages {
+                padding: 15px;
+            }
+            
+            .message-bubble {
+                padding: 12px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+            
+            .message-left .message-bubble {
+                margin-right: 0;
+            }
+            
+            .message-right .message-bubble {
+                margin-left: 0;
+            }
+            
+            .chat-input-container {
+                padding: 15px;
+            }
+            
+            .input-wrapper {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .topic-input {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+            
+            .start-button {
+                padding: 12px 25px;
+                font-size: 0.95em;
+            }
+            
+            .winner-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .winner-btn {
+                min-width: 200px;
+                padding: 12px 20px;
+            }
+        }
+
+        /* Small Mobile (480px and below) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 8px;
+            }
+            
+            .header {
+                padding: 8px 12px;
+                margin: 5px 0;
+            }
+            
+            .logo {
+                width: 180px;
+            }
+            
+            .header p {
+                font-size: 0.85em;
+            }
+            
+            .language-selector {
+                top: 8px;
+                right: 8px;
+            }
+            
+            .main-content {
+                gap: 12px;
+            }
+            
+            .character-panel {
+                padding: 10px;
+                gap: 12px;
+            }
+            
+            .avatar-container {
+                width: 100px;
+                min-height: 130px;
+            }
+            
+            .character-config {
+                gap: 8px;
+            }
+            
+            .character-prompt {
+                height: 70px;
+                font-size: 0.85em;
+            }
+            
+            .character-select,
+            .character-name {
+                font-size: 0.85em;
+                padding: 8px 10px;
+            }
+            
+            .form-group label {
+                font-size: 0.8em;
+            }
+            
+            .chat-header {
+                padding: 12px 15px;
+            }
+            
+            .chat-header h2 {
+                font-size: 1em;
+            }
+            
+            .rounds-control {
+                gap: 10px;
+            }
+            
+            .rounds-slider {
+                width: 80px;
+            }
+            
+            .chat-messages {
+                padding: 12px;
+            }
+            
+            .message-bubble {
+                padding: 10px;
+            }
+            
+            .message-author {
+                font-size: 0.8em;
+            }
+            
+            .message-content {
+                font-size: 0.9em;
+                line-height: 1.5;
+            }
+            
+            .chat-input-container {
+                padding: 12px;
+            }
+            
+            .topic-input {
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+            
+            .start-button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            
+            .winner-btn {
+                min-width: 150px;
+                padding: 10px 16px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -1232,7 +1524,9 @@
                 winnerAnnouncement: "made the stronger argument!",
                 tieAnnouncement: "It's a tie! Both sides presented equally compelling arguments.",
                 debateInProgress: "Characters are debating!",
-                debateProgress: "Round {current} of {total}"
+                debateProgress: "Round {current} of {total}",
+                namePlaceholder: "Enter name...",
+                personalityPlaceholder: "Describe the character's philosophy and personality..."
             },
             tr: {
                 subtitle: "AI kişilikleri arasındaki felsefi diyalogları izleyin",
@@ -1252,7 +1546,9 @@
                 winnerAnnouncement: "daha güçlü argümanlar sundu!",
                 tieAnnouncement: "Berabere kaldı! Her iki taraf da eşit derecede ikna edici argümanlar sundu.",
                 debateInProgress: "Karakterler tartışıyor!",
-                debateProgress: "Tur {current} / {total}"
+                debateProgress: "Tur {current} / {total}",
+                namePlaceholder: "İsim girin...",
+                personalityPlaceholder: "Karakterin felsefesi ve kişiliğini tanımlayın..."
             }
         };
 
@@ -1344,10 +1640,17 @@
             ['left', 'right'].forEach(side => {
                 const select = document.getElementById(`${side}CharSelect`);
                 const currentValue = select.value;
+                const nameInput = document.getElementById(`${side}CharName`);
+                const promptInput = document.getElementById(`${side}CharPrompt`);
+                
+                // Update placeholders
+                nameInput.placeholder = t.namePlaceholder;
+                promptInput.placeholder = t.personalityPlaceholder;
+                
                 if (currentValue !== 'custom') {
                     const template = characterTemplates[lang][currentValue];
-                    document.getElementById(`${side}CharName`).value = template.name;
-                    document.getElementById(`${side}CharPrompt`).value = template.prompt;
+                    nameInput.value = template.name;
+                    promptInput.value = template.prompt;
                 }
             });
             
@@ -1562,6 +1865,10 @@
             const chatMessages = document.getElementById('chatMessages');
             const t = translations[currentLanguage];
             
+            const warningTitle = currentLanguage === 'tr' 
+                ? '⚠️ İçerik Uyarısı'
+                : '⚠️ Content Warning';
+            
             const warningMessage = currentLanguage === 'tr' 
                 ? 'Karakterler bu konuyu tartışmak istemiyor. Lütfen farklı bir konu deneyin.'
                 : 'The characters don\'t want to discuss this topic. Please try a different topic.';
@@ -1569,7 +1876,7 @@
             chatMessages.innerHTML = `
                 <div class="message">
                     <div class="message-bubble" style="background: linear-gradient(135deg, rgba(220, 38, 127, 0.2), rgba(239, 68, 68, 0.1)); border-left: 3px solid #dc2626; margin: 20px 0; text-align: center;">
-                        <div style="color: #dc2626; font-weight: 600; margin-bottom: 8px;">⚠️ İçerik Uyarısı / Content Warning</div>
+                        <div style="color: #dc2626; font-weight: 600; margin-bottom: 8px;">${warningTitle}</div>
                         <div style="color: var(--text-primary);">${warningMessage}</div>
                     </div>
                 </div>
