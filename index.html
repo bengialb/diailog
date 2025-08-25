@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIAILOG - AI Philosophy Debates</title>
+    <title>Diailog</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
     <style>
         * {
             margin: 0;
@@ -210,7 +213,8 @@
             gap: 20px;
             flex: 1;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            min-height: 0;
         }
 
         /* Character panels */
@@ -223,8 +227,11 @@
             position: relative;
             transition: all 0.4s ease;
             transform: translateY(0);
-            overflow-y: auto;
+            overflow: hidden;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
         }
 
         .character-panel::before {
@@ -427,6 +434,10 @@
             gap: 15px;
             position: relative;
             z-index: 50;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+            max-width: 100%;
         }
 
         .form-group label {
@@ -443,6 +454,7 @@
         .character-name,
         .character-prompt {
             width: 100%;
+            max-width: 100%;
             padding: 12px 15px;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -452,6 +464,7 @@
             transition: all 0.3s ease;
             position: relative;
             z-index: 100;
+            box-sizing: border-box;
         }
 
         .character-select option {
@@ -482,10 +495,11 @@
         }
 
         .character-prompt {
-            min-height: 120px;
-            resize: vertical;
+            height: 120px;
+            resize: none;
             font-family: inherit;
             line-height: 1.5;
+            overflow-y: auto;
         }
 
         /* Chat container */
@@ -525,12 +539,76 @@
             padding: 20px 25px;
             border-bottom: 1px solid var(--border-color);
             background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .chat-header h2 {
             font-size: 1.2em;
             font-weight: 400;
             color: var(--text-primary);
+            text-align: center;
+            margin: 0;
+        }
+
+        .rounds-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .rounds-control label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .rounds-slider {
+            width: 120px;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--bg-secondary);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .rounds-slider::-webkit-slider-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .rounds-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-left), var(--accent-right));
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .rounds-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-left), var(--accent-right));
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .rounds-value {
+            color: var(--accent-left);
+            font-weight: 600;
+            font-size: 1em;
+            min-width: 20px;
             text-align: center;
         }
 
@@ -741,6 +819,132 @@
             letter-spacing: 0.05em;
         }
 
+        .winner-selection {
+            text-align: center;
+            margin: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .winner-selection h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .winner-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .winner-btn {
+            padding: 12px 24px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .winner-btn.left {
+            background: linear-gradient(135deg, var(--accent-left), rgba(59, 130, 246, 0.8));
+            color: white;
+            border-color: var(--accent-left);
+        }
+
+        .winner-btn.right {
+            background: linear-gradient(135deg, var(--accent-right), rgba(139, 92, 246, 0.8));
+            color: white;
+            border-color: var(--accent-right);
+        }
+
+        .winner-btn.tie {
+            background: linear-gradient(135deg, var(--text-secondary), rgba(148, 163, 184, 0.8));
+            color: white;
+            border-color: var(--text-secondary);
+        }
+
+        .winner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .winner-btn.left:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .winner-btn.right:hover {
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .winner-selected {
+            text-align: center;
+            margin: 20px;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .debate-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .debate-loading h3 {
+            color: var(--text-primary);
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .debate-spinner {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent-left);
+            border-right: 3px solid var(--accent-right);
+            animation: debateRotate 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes debateRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .debate-progress {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            background: transparent;
+            border: none;
+        }
+
         @media (max-width: 1400px) {
             .main-content {
                 grid-template-columns: 300px 1fr 300px;
@@ -764,8 +968,8 @@
 </head>
 <body>
     <div class="language-selector">
-        <button class="lang-btn active" onclick="setLanguage('en')" id="langEn">EN</button>
-        <button class="lang-btn" onclick="setLanguage('tr')" id="langTr">TR</button>
+        <button class="lang-btn active" onclick="changeLanguage('en')" id="langEn">EN</button>
+        <button class="lang-btn" onclick="changeLanguage('tr')" id="langTr">TR</button>
     </div>
     
     <div class="container">
@@ -785,24 +989,24 @@
                 
                 <div class="character-config">
                     <div class="form-group">
-                        <label>Character Template</label>
+                        <label id="leftTemplateLabel">Character Template</label>
                         <select class="character-select" id="leftCharSelect">
-                            <option value="custom">Custom Character</option>
                             <option value="stoic" selected>Stoic Philosopher</option>
                             <option value="buddhist">Buddhist Teacher</option>
                             <option value="scientist">Scientist</option>
                             <option value="artist">Artist</option>
                             <option value="existentialist">Existentialist</option>
+                            <option value="custom">Custom Character</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label>Character Name</label>
+                        <label id="leftNameLabel">Character Name</label>
                         <input type="text" class="character-name" id="leftCharName" placeholder="Enter name..." value="Marcus">
                     </div>
                     
                     <div class="form-group">
-                        <label>Character Personality</label>
+                        <label id="leftPersonalityLabel">Character Personality</label>
                         <textarea class="character-prompt" id="leftCharPrompt" placeholder="Describe the character's philosophy and personality...">Sen Marcus adında bir Stoacı filozofsun. Stoa felsefesi öğretilerini savunursun. Erdem, bilgelik, cesaret, adalet ve ölçülülük değerlerine inanırsın. Doğaya uygun yaşamayı, duyguları kontrol etmeyi ve kaderi kabullenmeyi öğütlersin.</textarea>
                     </div>
                 </div>
@@ -812,6 +1016,11 @@
             <div class="chat-container">
                 <div class="chat-header">
                     <h2>Philosophical Debate Arena</h2>
+                    <div class="rounds-control">
+                        <label for="roundsSlider" id="roundsLabel">Response Count:</label>
+                        <input type="range" id="roundsSlider" class="rounds-slider" min="1" max="4" value="2" step="1">
+                        <span class="rounds-value" id="roundsValue">4</span>
+                    </div>
                 </div>
                 <div class="chat-messages" id="chatMessages">
                     <div class="welcome-message">
@@ -838,32 +1047,45 @@
                 
                 <div class="character-config">
                     <div class="form-group">
-                        <label>Character Template</label>
+                        <label id="rightTemplateLabel">Character Template</label>
                         <select class="character-select" id="rightCharSelect">
-                            <option value="custom">Custom Character</option>
                             <option value="stoic">Stoic Philosopher</option>
                             <option value="buddhist" selected>Buddhist Teacher</option>
                             <option value="scientist">Scientist</option>
                             <option value="artist">Artist</option>
                             <option value="existentialist">Existentialist</option>
+                            <option value="custom">Custom Character</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label>Character Name</label>
+                        <label id="rightNameLabel">Character Name</label>
                         <input type="text" class="character-name" id="rightCharName" placeholder="Enter name..." value="Dharma">
                     </div>
                     
                     <div class="form-group">
-                        <label>Character Personality</label>
+                        <label id="rightPersonalityLabel">Character Personality</label>
                         <textarea class="character-prompt" id="rightCharPrompt" placeholder="Describe the character's philosophy and personality...">Sen Dharma adında bir Budist öğretmensin. Budizm'in temel öğretilerini savunursun. Dört asil gerçek, sekiz katlı yol, karma, nirvana ve aydınlanma kavramlarına inanırsın. Acının doğasını, bağımlılıktan kurtulmayı ve meditasyonun önemini vurgularsın.</textarea>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="footer">
+            © 2025 Bengi Albukrek
+        </div>
     </div>
 
     <script>
+        // Handle web components error
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('custom element')) {
+                console.warn('Web components error caught:', e.message);
+                e.preventDefault();
+                return false;
+            }
+        });
+
         const characterTemplates = {
             en: {
                 stoic: {
@@ -957,6 +1179,9 @@
                 document.getElementById('leftCharPrompt').value = template.prompt;
                 updateCharacterAvatar('left', characterType);
             } else {
+                // Clear fields for custom character
+                document.getElementById('leftCharName').value = '';
+                document.getElementById('leftCharPrompt').value = '';
                 updateCharacterAvatar('left', 'custom');
             }
             
@@ -973,6 +1198,9 @@
                 document.getElementById('rightCharPrompt').value = template.prompt;
                 updateCharacterAvatar('right', characterType);
             } else {
+                // Clear fields for custom character
+                document.getElementById('rightCharName').value = '';
+                document.getElementById('rightCharPrompt').value = '';
                 updateCharacterAvatar('right', 'custom');
             }
             
@@ -981,32 +1209,50 @@
 
         let conversationHistory = [];
         let currentRound = 0;
-        let currentLanguage = 'en';
+        
+        // Get language from localStorage or default to 'en'
+        let currentLanguage = localStorage.getItem('diailog_language') || 'en';
 
         const translations = {
             en: {
                 subtitle: "Witness philosophical dialogues between AI personas",
                 chatHeader: "Philosophical Debate Arena", 
-                welcomeMessage: "Welcome to DIAILOG.<br>Enter a topic below and click \"Start Debate\" to begin.<br>Each character will exchange 5 responses on your chosen topic.",
+                welcomeMessage: "Welcome to DIAILOG.<br>Enter a topic below and click \"Start Debate\" to begin.<br>Each character will exchange responses on your chosen topic.",
                 topicPlaceholder: "Enter debate topic... (e.g., What is the meaning of life?)",
                 startButton: "Start Debate",
                 newDebateButton: "New Debate",
                 characterTemplate: "Character Template",
                 characterName: "Character Name",
                 characterPersonality: "Character Personality",
-                customCharacter: "Custom Character"
+                customCharacter: "Custom Character",
+                roundsLabel: "Response Count",
+                debateEnd: "✨ DEBATE CONCLUDED ✨",
+                winnerQuestion: "Who made the stronger argument?",
+                tieOption: "It's a Tie",
+                winnerAnnouncement: "made the stronger argument!",
+                tieAnnouncement: "It's a tie! Both sides presented equally compelling arguments.",
+                debateInProgress: "Characters are debating!",
+                debateProgress: "Round {current} of {total}"
             },
             tr: {
                 subtitle: "AI kişilikleri arasındaki felsefi diyalogları izleyin",
                 chatHeader: "Felsefi Tartışma Arenası",
-                welcomeMessage: "DIAILOG'a hoş geldiniz.<br>Aşağıya bir konu girin ve \"Tartışmayı Başlat\" butonuna tıklayın.<br>Her karakter seçtiğiniz konu hakkında 5 yanıt alışverişi yapacak.",
+                welcomeMessage: "DIAILOG'a hoş geldiniz.<br>Aşağıya bir konu girin ve \"Tartışmayı Başlat\" butonuna tıklayın.<br>Her karakter seçtiğiniz konu hakkında yanıt alışverişi yapacak.",
                 topicPlaceholder: "Tartışma konusu girin... (örn: Hayatın anlamı nedir?)",
                 startButton: "Tartışmayı Başlat",
                 newDebateButton: "Yeni Tartışma",
                 characterTemplate: "Karakter Şablonu",
                 characterName: "Karakter Adı", 
                 characterPersonality: "Karakter Kişiliği",
-                customCharacter: "Özel Karakter"
+                customCharacter: "Özel Karakter",
+                roundsLabel: "Cevap Sayısı",
+                debateEnd: "✨ TARTIŞMA BİTTİ ✨",
+                winnerQuestion: "Hangi taraf daha güçlü argümanlar sundu?",
+                tieOption: "Berabere",
+                winnerAnnouncement: "daha güçlü argümanlar sundu!",
+                tieAnnouncement: "Berabere kaldı! Her iki taraf da eşit derecede ikna edici argümanlar sundu.",
+                debateInProgress: "Karakterler tartışıyor!",
+                debateProgress: "Tur {current} / {total}"
             }
         };
 
@@ -1019,12 +1265,12 @@
                 const currentValue = select.value;
                 
                 select.innerHTML = `
-                    <option value="custom">${t.customCharacter}</option>
                     <option value="stoic">${templates.stoic.displayName}</option>
                     <option value="buddhist">${templates.buddhist.displayName}</option>
                     <option value="scientist">${templates.scientist.displayName}</option>
                     <option value="artist">${templates.artist.displayName}</option>
                     <option value="existentialist">${templates.existentialist.displayName}</option>
+                    <option value="custom">${t.customCharacter}</option>
                 `;
                 
                 select.value = currentValue;
@@ -1047,29 +1293,132 @@
             document.querySelector('.welcome-message').innerHTML = t.welcomeMessage;
             document.getElementById('topicInput').placeholder = t.topicPlaceholder;
             
-            const startBtn = document.getElementById('startButton');
-            startBtn.textContent = startBtn.disabled ? (lang === 'en' ? 'New Debate' : 'Yeni Tartışma') : t.startButton;
+            // Debug rounds label
+            const roundsLabelElement = document.getElementById('roundsLabel');
+            console.log('roundsLabel element:', roundsLabelElement);
+            console.log('Setting roundsLabel to:', t.roundsLabel);
+            if (roundsLabelElement) {
+                roundsLabelElement.textContent = t.roundsLabel;
+                roundsLabelElement.innerHTML = t.roundsLabel; // Force both textContent and innerHTML
+                console.log('roundsLabel updated to:', roundsLabelElement.textContent);
+                
+                // Also force update after a delay to override any other changes
+                setTimeout(() => {
+                    roundsLabelElement.textContent = t.roundsLabel;
+                }, 100);
+            }
             
-            // Update labels
-            document.querySelectorAll('label').forEach((label, index) => {
-                const labelKeys = [t.characterTemplate, t.characterName, t.characterPersonality];
-                const keyIndex = index % 3;
-                if (labelKeys[keyIndex]) label.textContent = labelKeys[keyIndex];
+            const startBtn = document.getElementById('startButton');
+            if (startBtn) {
+                if (startBtn.innerHTML.includes('New Debate') || startBtn.innerHTML.includes('Yeni Tartışma')) {
+                    startBtn.textContent = lang === 'en' ? 'New Debate' : 'Yeni Tartışma';
+                } else {
+                    startBtn.textContent = t.startButton;
+                }
+            }
+            
+            // Update specific labels by ID
+            const labelElements = [
+                'leftTemplateLabel', 'rightTemplateLabel',
+                'leftNameLabel', 'rightNameLabel', 
+                'leftPersonalityLabel', 'rightPersonalityLabel'
+            ];
+            
+            const labelTexts = [
+                t.characterTemplate, t.characterTemplate,
+                t.characterName, t.characterName,
+                t.characterPersonality, t.characterPersonality
+            ];
+            
+            labelElements.forEach((labelId, index) => {
+                const element = document.getElementById(labelId);
+                if (element && labelTexts[index]) {
+                    element.textContent = labelTexts[index];
+                }
             });
             
             // Update dropdown options
             updateDropdownOptions(lang);
             
+            // Update character prompts if not custom
+            ['left', 'right'].forEach(side => {
+                const select = document.getElementById(`${side}CharSelect`);
+                const currentValue = select.value;
+                if (currentValue !== 'custom') {
+                    const template = characterTemplates[lang][currentValue];
+                    document.getElementById(`${side}CharName`).value = template.name;
+                    document.getElementById(`${side}CharPrompt`).value = template.prompt;
+                }
+            });
+            
             // Update language buttons
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('lang' + lang.toUpperCase()).classList.add('active');
+            const langBtn = document.getElementById('lang' + lang.toUpperCase());
+            if (langBtn) {
+                langBtn.classList.add('active');
+            }
+        }
+
+        function changeLanguage(lang) {
+            // Save language preference
+            localStorage.setItem('diailog_language', lang);
+            
+            // Reload page to apply language change
+            window.location.reload();
         }
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             toggleInputs('left', false);  // Start with stoic locked
             toggleInputs('right', false); // Start with buddhist locked
-            setLanguage('en');
+            setLanguage(currentLanguage); // Use saved language preference
+            
+            // Initialize rounds slider - using more robust approach
+            setTimeout(() => {
+                console.log('Starting slider initialization...');
+                const roundsSlider = document.getElementById('roundsSlider');
+                const roundsValue = document.getElementById('roundsValue');
+                
+                console.log('Slider element:', roundsSlider);
+                console.log('Value element:', roundsValue);
+                console.log('Slider current value:', roundsSlider ? roundsSlider.value : 'N/A');
+                
+                function updateRoundsDisplay() {
+                    const slider = document.getElementById('roundsSlider');
+                    const valueSpan = document.getElementById('roundsValue');
+                    
+                    if (slider && valueSpan) {
+                        const value = parseInt(slider.value);
+                        const rounds = value * 2; // 1->2, 2->4, 3->6, 4->8
+                        valueSpan.textContent = rounds;
+                        valueSpan.innerHTML = rounds; // Force both
+                        console.log(`✅ Slider updated: ${value} -> Rounds: ${rounds}`);
+                        console.log('Value span content:', valueSpan.textContent);
+                    } else {
+                        console.error('❌ Elements missing in updateRoundsDisplay');
+                    }
+                }
+                
+                if (roundsSlider && roundsValue) {
+                    console.log('✅ Both elements found, initializing...');
+                    
+                    // Force initial update multiple times
+                    updateRoundsDisplay();
+                    setTimeout(updateRoundsDisplay, 50);
+                    setTimeout(updateRoundsDisplay, 200);
+                    
+                    // Add event listeners
+                    ['input', 'change', 'mouseup', 'touchend'].forEach(eventType => {
+                        roundsSlider.addEventListener(eventType, updateRoundsDisplay);
+                        console.log(`Added ${eventType} listener`);
+                    });
+                    
+                    console.log('✅ Slider initialized successfully');
+                } else {
+                    console.error('❌ Slider elements not found!');
+                    console.log('Available elements:', document.querySelectorAll('#roundsSlider, #roundsValue'));
+                }
+            }, 1000); // Even longer delay
         });
 
         // Google Apps Script Web App URL
@@ -1077,29 +1426,64 @@
 
         async function logData(anon_id, model_pick, topic, extra = '') {
             try {
+                console.log('🔄 Starting log request...');
+                console.log('📊 Data to log:', { anon_id, model_pick, topic, extra });
+                console.log('🌐 URL:', WEB_APP_URL);
+                
+                const requestBody = {
+                    anon_id: anon_id,
+                    model_pick: model_pick,
+                    topic: topic,
+                    extra: extra
+                };
+                
+                console.log('📤 Request body:', JSON.stringify(requestBody, null, 2));
+                
                 const response = await fetch(WEB_APP_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({
-                        anon_id: anon_id,
-                        model_pick: model_pick,
-                        topic: topic,
-                        extra: extra
-                    })
+                    body: JSON.stringify(requestBody)
                 });
                 
-                const result = await response.json();
-                console.log('Log kaydedildi:', result);
+                console.log('📨 Response status:', response.status);
+                console.log('📨 Response headers:', [...response.headers.entries()]);
+                
+                const responseText = await response.text();
+                console.log('📄 Raw response:', responseText);
+                
+                if (!response.ok) {
+                    console.error('❌ HTTP Error:', response.status, response.statusText);
+                    return { error: `HTTP ${response.status}: ${response.statusText}` };
+                }
+                
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                    console.log('✅ Parsed JSON result:', result);
+                } catch (parseError) {
+                    console.warn('⚠️ Could not parse as JSON:', parseError);
+                    result = { success: true, raw: responseText };
+                }
+                
                 return result;
                 
             } catch (error) {
-                console.error('Log kaydetme hatası:', error);
-                return null;
+                console.error('💥 Log request failed:', error);
+                console.error('💥 Error details:', error.message, error.stack);
+                return { error: error.message };
             }
         }
 
+        // Test function for Google Sheets (call from console)
+        window.testGoogleSheets = async function() {
+            console.log('🧪 Testing Google Sheets connection...');
+            const result = await logData('test_user', 'test_model', 'test_topic', 'test_extra');
+            console.log('🧪 Test result:', result);
+            return result;
+        }
 
         async function callClaude(messages) {
             try {
@@ -1161,10 +1545,48 @@
             }
         }
 
+        function checkInappropriateContent(text) {
+            const inappropriateWords = [
+                // Turkish inappropriate words
+                'sex', 'seks', 'porn', 'porno', 'fuck', 'shit', 'damn', 'hell', 
+                'cinsel', 'cinsellik', 'tecavüz', 'şiddet', 'öldür', 'intihar',
+                'uyuşturucu', 'eroin', 'kokain', 'kumar', 'fuhuş', 'soygun',
+                'bomba', 'terör', 'terörist', 'silah', 'cinayet', 'hırsızlık'
+            ];
+            
+            const lowerText = text.toLowerCase();
+            return inappropriateWords.some(word => lowerText.includes(word));
+        }
+
+        function showContentWarning() {
+            const chatMessages = document.getElementById('chatMessages');
+            const t = translations[currentLanguage];
+            
+            const warningMessage = currentLanguage === 'tr' 
+                ? 'Karakterler bu konuyu tartışmak istemiyor. Lütfen farklı bir konu deneyin.'
+                : 'The characters don\'t want to discuss this topic. Please try a different topic.';
+                
+            chatMessages.innerHTML = `
+                <div class="message">
+                    <div class="message-bubble" style="background: linear-gradient(135deg, rgba(220, 38, 127, 0.2), rgba(239, 68, 68, 0.1)); border-left: 3px solid #dc2626; margin: 20px 0; text-align: center;">
+                        <div style="color: #dc2626; font-weight: 600; margin-bottom: 8px;">⚠️ İçerik Uyarısı / Content Warning</div>
+                        <div style="color: var(--text-primary);">${warningMessage}</div>
+                    </div>
+                </div>
+            `;
+        }
+
         async function startDebate() {
             const topic = document.getElementById('topicInput').value.trim();
             if (!topic) {
-                alert('Please enter a debate topic!');
+                const alertMessage = currentLanguage === 'tr' ? 'Lütfen bir tartışma konusu girin!' : 'Please enter a debate topic!';
+                alert(alertMessage);
+                return;
+            }
+            
+            // Check for inappropriate content
+            if (checkInappropriateContent(topic)) {
+                showContentWarning();
                 return;
             }
 
@@ -1184,18 +1606,43 @@
             }
 
             // Clear and start
-            document.getElementById('chatMessages').innerHTML = '';
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
             document.getElementById('startButton').disabled = true;
             document.getElementById('startButton').innerHTML = '<div class="loading"></div>';
             
+            // Get number of rounds from slider
+            const roundsSlider = document.getElementById('roundsSlider');
+            const totalRounds = parseInt(roundsSlider.value) * 2; // 1->2, 2->4, 3->6, 4->8
+            const totalMessages = totalRounds; // Each round = 1 message per character
+            
+            const t = translations[currentLanguage];
+            
+            // Show loading animation
+            chatMessages.innerHTML = `
+                <div class="debate-loading">
+                    <h3>${t.debateInProgress}</h3>
+                    <div class="debate-spinner"></div>
+                    <div class="debate-progress" id="debateProgress">${t.debateProgress.replace('{current}', '1').replace('{total}', totalMessages)}</div>
+                </div>
+            `;
+
             conversationHistory = [];
             currentRound = 0;
+            const responseLanguage = currentLanguage === 'tr' ? 'Turkish' : 'English';
 
-            // Debate loop
-            for (let round = 0; round < 5; round++) {
+            // Collect all responses first
+            const allMessages = [];
+
+            // Debate loop - collect responses without showing
+            for (let round = 0; round < totalRounds / 2; round++) {
+                // Update progress
+                const progressEl = document.getElementById('debateProgress');
+                if (progressEl) {
+                    progressEl.textContent = t.debateProgress.replace('{current}', (round * 2 + 1).toString()).replace('{total}', totalMessages.toString());
+                }
+
                 // Left character speaks
-                showTypingIndicator();
-                
                 const leftMessages = [
                     {
                         role: "user",
@@ -1203,23 +1650,34 @@
 
 Topic of discussion: "${topic}"
 
-${conversationHistory.length > 0 ? `Conversation so far:
-${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}` : 'You speak first.'}
+${conversationHistory.length > 0 ? `Previous conversation:
+${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}
 
-Kısa ve öz bir şekilde (maksimum 2-3 cümle) bu konudaki görüşünü belirt. Karşı tarafa saygılı ol ama kendi felsefi görüşünü savun.`
+Now respond to what ${rightName} just said. Build upon their arguments, challenge their points respectfully, or find common ground.` : 'You speak first on this topic.'}
+
+Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with the discussion.
+
+IMPORTANT: 
+- Respond in ${responseLanguage} language
+- Do NOT include your character name at the beginning of your response
+- Give only your direct response, without any prefixes like "${leftName}:" or similar`
                     }
                 ];
 
                 const leftResponse = await callClaude(leftMessages);
-                removeTypingIndicator();
-                addMessage(leftName, leftResponse, true);
-                conversationHistory.push({ author: leftName, content: leftResponse });
+                
+                // Clean response - remove character name if it appears at the beginning
+                const cleanLeftResponse = leftResponse.replace(new RegExp(`^${leftName}:\\s*`, 'i'), '');
+                
+                conversationHistory.push({ author: leftName, content: cleanLeftResponse });
+                allMessages.push({ author: leftName, content: cleanLeftResponse, isLeft: true });
 
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // Update progress
+                if (progressEl) {
+                    progressEl.textContent = t.debateProgress.replace('{current}', (round * 2 + 2).toString()).replace('{total}', totalMessages.toString());
+                }
 
                 // Right character speaks
-                showTypingIndicator();
-                
                 const rightMessages = [
                     {
                         role: "user",
@@ -1227,29 +1685,87 @@ Kısa ve öz bir şekilde (maksimum 2-3 cümle) bu konudaki görüşünü belirt
 
 Topic of discussion: "${topic}"
 
-Conversation so far:
+Previous conversation:
 ${conversationHistory.map(h => `${h.author}: ${h.content}`).join('\n\n')}
 
-Kısa ve öz bir şekilde (maksimum 2-3 cümle) bu konudaki görüşünü belirt ve ${leftName}'un söylediklerine yanıt ver. Saygılı ol ama kendi felsefi görüşünü savun.`
+Now respond directly to what ${leftName} just said. Address their specific points, provide counterarguments, or build upon shared ideas. Make this a real dialogue, not just separate statements.
+
+Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with ${leftName}'s arguments.
+
+IMPORTANT: 
+- Respond in ${responseLanguage} language
+- Do NOT include your character name at the beginning of your response
+- Give only your direct response, without any prefixes like "${rightName}:" or similar`
                     }
                 ];
 
                 const rightResponse = await callClaude(rightMessages);
-                removeTypingIndicator();
-                addMessage(rightName, rightResponse, false);
-                conversationHistory.push({ author: rightName, content: rightResponse });
-
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Clean response - remove character name if it appears at the beginning
+                const cleanRightResponse = rightResponse.replace(new RegExp(`^${rightName}:\\s*`, 'i'), '');
+                
+                conversationHistory.push({ author: rightName, content: cleanRightResponse });
+                allMessages.push({ author: rightName, content: cleanRightResponse, isLeft: false });
             }
+
+            // Now show all messages at once
+            chatMessages.innerHTML = '';
+            allMessages.forEach(msg => {
+                addMessage(msg.author, msg.content, msg.isLeft);
+            });
 
             // Debate end
             const endMessage = document.createElement('div');
             endMessage.className = 'debate-end';
-            endMessage.textContent = '✨ DEBATE CONCLUDED ✨';
-            document.getElementById('chatMessages').appendChild(endMessage);
+            endMessage.textContent = t.debateEnd;
+            chatMessages.appendChild(endMessage);
+
+            // Winner selection
+            const winnerSelection = document.createElement('div');
+            winnerSelection.className = 'winner-selection';
+            winnerSelection.innerHTML = `
+                <h3>${t.winnerQuestion}</h3>
+                <div class="winner-buttons">
+                    <button class="winner-btn left" onclick="selectWinner('${leftName}', 'left')">${leftName}</button>
+                    <button class="winner-btn right" onclick="selectWinner('${rightName}', 'right')">${rightName}</button>
+                    <button class="winner-btn tie" onclick="selectWinner('${t.tieOption}', 'tie')">${t.tieOption}</button>
+                </div>
+            `;
+            chatMessages.appendChild(winnerSelection);
+
+            // Don't auto-scroll - let users read from the beginning
 
             document.getElementById('startButton').disabled = false;
-            document.getElementById('startButton').innerHTML = 'New Debate';
+            document.getElementById('startButton').innerHTML = currentLanguage === 'tr' ? 'Yeni Tartışma' : 'New Debate';
+        }
+
+        function selectWinner(winnerName, side) {
+            // Remove winner selection and add result
+            const winnerSelection = document.querySelector('.winner-selection');
+            if (winnerSelection) {
+                winnerSelection.remove();
+            }
+
+            const t = translations[currentLanguage];
+            const winnerResult = document.createElement('div');
+            winnerResult.className = 'winner-selected';
+            
+            // Different message for tie vs winner
+            if (side === 'tie') {
+                winnerResult.innerHTML = `🤝 ${t.tieAnnouncement}`;
+            } else {
+                winnerResult.innerHTML = `🏆 <strong>${winnerName}</strong> ${t.winnerAnnouncement}`;
+            }
+            
+            document.getElementById('chatMessages').appendChild(winnerResult);
+
+            // Log winner selection to Google Sheets
+            try {
+                const anon_id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                logData(anon_id, 'winner_selection', winnerName, `Side: ${side}`);
+            } catch (error) {
+                console.warn('Winner logging failed:', error);
+            }
         }
 
         // Enter key to start
