@@ -1008,7 +1008,8 @@
         @media (max-width: 768px) {
             .container {
                 padding: 0 10px;
-                height: 100vh;
+                height: auto;
+                min-height: 100vh;
                 display: flex;
                 flex-direction: column;
             }
@@ -1016,6 +1017,7 @@
             .header {
                 padding: 10px 15px;
                 margin: 8px 0;
+                flex-shrink: 0;
             }
             
             .logo {
@@ -1040,49 +1042,73 @@
             .main-content {
                 grid-template-columns: 1fr;
                 gap: 15px;
-                flex: 1;
-                min-height: 0;
+                flex: none;
+                overflow: visible;
             }
             
             .character-panel {
                 grid-template-columns: 1fr;
                 gap: 15px;
-                padding: 12px;
+                padding: 15px;
+                height: auto;
+                min-height: auto;
+                overflow: visible;
+                display: flex;
+                flex-direction: column;
             }
             
             .avatar-section {
                 text-align: center;
                 margin-bottom: 15px;
+                flex-shrink: 0;
             }
             
             .avatar-container {
                 width: 120px;
                 min-height: 160px;
                 margin: 0 auto 10px;
+                flex-shrink: 0;
             }
             
             .character-config {
-                gap: 10px;
+                gap: 12px;
+                flex: none;
+                overflow: visible;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .form-group {
+                width: 100%;
+                flex-shrink: 0;
             }
             
             .character-prompt {
-                height: 80px;
+                height: 100px;
                 font-size: 0.9em;
+                resize: vertical;
+                min-height: 80px;
             }
             
             .character-select,
             .character-name {
                 font-size: 0.9em;
-                padding: 10px 12px;
+                padding: 12px 15px;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .form-group label {
                 font-size: 0.85em;
-                margin-bottom: 6px;
+                margin-bottom: 8px;
+                display: block;
             }
             
             .chat-container {
-                min-height: 400px;
+                min-height: 500px;
+                height: auto;
+                overflow: visible;
             }
             
             .chat-header {
@@ -1099,6 +1125,8 @@
             
             .chat-messages {
                 padding: 15px;
+                max-height: 60vh;
+                overflow-y: auto;
             }
             
             .message-bubble {
@@ -1127,11 +1155,14 @@
             .topic-input {
                 padding: 12px 15px;
                 font-size: 0.95em;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .start-button {
                 padding: 12px 25px;
                 font-size: 0.95em;
+                width: 100%;
             }
             
             .winner-buttons {
@@ -1150,11 +1181,14 @@
         @media (max-width: 480px) {
             .container {
                 padding: 0 8px;
+                height: auto;
+                min-height: 100vh;
             }
             
             .header {
                 padding: 8px 12px;
                 margin: 5px 0;
+                flex-shrink: 0;
             }
             
             .logo {
@@ -1172,35 +1206,72 @@
             
             .main-content {
                 gap: 12px;
+                flex: none;
+                overflow: visible;
             }
             
             .character-panel {
-                padding: 10px;
+                padding: 12px;
                 gap: 12px;
+                height: auto;
+                min-height: auto;
+                overflow: visible;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .avatar-section {
+                flex-shrink: 0;
+                margin-bottom: 12px;
             }
             
             .avatar-container {
                 width: 100px;
                 min-height: 130px;
+                flex-shrink: 0;
             }
             
             .character-config {
-                gap: 8px;
+                gap: 10px;
+                flex: none;
+                overflow: visible;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .form-group {
+                width: 100%;
+                flex-shrink: 0;
             }
             
             .character-prompt {
-                height: 70px;
+                height: 90px;
                 font-size: 0.85em;
+                resize: vertical;
+                min-height: 70px;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .character-select,
             .character-name {
                 font-size: 0.85em;
-                padding: 8px 10px;
+                padding: 10px 12px;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .form-group label {
                 font-size: 0.8em;
+                margin-bottom: 6px;
+                display: block;
+            }
+            
+            .chat-container {
+                min-height: 450px;
+                height: auto;
+                overflow: visible;
             }
             
             .chat-header {
@@ -1221,6 +1292,8 @@
             
             .chat-messages {
                 padding: 12px;
+                max-height: 50vh;
+                overflow-y: auto;
             }
             
             .message-bubble {
@@ -1243,11 +1316,14 @@
             .topic-input {
                 padding: 10px 12px;
                 font-size: 0.9em;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .start-button {
                 padding: 10px 20px;
                 font-size: 0.9em;
+                width: 100%;
             }
             
             .winner-btn {
