@@ -30,17 +30,17 @@
         html, body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-primary);
-            height: 100vh;
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
             color: var(--text-primary);
             position: relative;
-            overflow: hidden;
         }
 
         /* Elegant particle system background */
@@ -106,10 +106,10 @@
             max-width: 1600px;
             margin: 0 auto;
             padding: 0 20px;
-            height: 100vh;
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .header {
@@ -212,9 +212,7 @@
             grid-template-columns: 350px 1fr 350px;
             gap: 20px;
             flex: 1;
-            overflow: hidden;
             margin-bottom: 5px;
-            min-height: 0;
         }
 
         /* Character panels */
@@ -227,8 +225,6 @@
             position: relative;
             transition: all 0.4s ease;
             transform: translateY(0);
-            overflow: hidden;
-            height: 100%;
             display: flex;
             flex-direction: column;
             max-width: 100%;
@@ -289,7 +285,9 @@
 
         .avatar-container {
             width: 180px;
-            min-height: 240px;
+            height: auto;
+            min-height: 200px;
+            max-height: 250px;
             margin: 0 auto 10px;
             border-radius: 15px;
             background: var(--bg-secondary);
@@ -333,9 +331,11 @@
 
         .avatar-preview {
             max-width: 100%;
+            max-height: 100%;
+            width: auto;
             height: auto;
             display: block;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center 20%;
             border-radius: 15px;
             image-rendering: -webkit-optimize-contrast;
@@ -510,9 +510,8 @@
             backdrop-filter: blur(15px);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            min-height: 400px;
             position: relative;
-            overflow: hidden;
             box-shadow: 
                 0 0 60px rgba(59, 130, 246, 0.1),
                 0 0 120px rgba(139, 92, 246, 0.05),
@@ -1004,12 +1003,26 @@
             }
         }
 
-        /* Large Mobile (768px and below) */
+        /* Large Mobile and Tablet (1024px and below) */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .character-panel {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                min-height: auto;
+            }
+        }
+        
+        /* Mobile (768px and below) */
         @media (max-width: 768px) {
             .container {
                 padding: 0 10px;
-                height: auto;
-                min-height: 100vh;
+                min-height: calc(var(--vh, 1vh) * 100);
                 display: flex;
                 flex-direction: column;
             }
@@ -1125,8 +1138,7 @@
             
             .chat-messages {
                 padding: 15px;
-                max-height: 60vh;
-                overflow-y: auto;
+                max-height: none;
             }
             
             .message-bubble {
@@ -1181,8 +1193,7 @@
         @media (max-width: 480px) {
             .container {
                 padding: 0 8px;
-                height: auto;
-                min-height: 100vh;
+                min-height: calc(var(--vh, 1vh) * 100);
             }
             
             .header {
@@ -1292,8 +1303,7 @@
             
             .chat-messages {
                 padding: 12px;
-                max-height: 50vh;
-                overflow-y: auto;
+                max-height: none;
             }
             
             .message-bubble {
@@ -2150,6 +2160,21 @@ IMPORTANT:
                 console.warn('Winner logging failed:', error);
             }
         }
+
+        // Mobile VH fix for address bar issues
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        // Set initial VH
+        setVH();
+        
+        // Update VH on resize and orientation change
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setVH, 100);
+        });
 
         // Enter key to start
         document.getElementById('topicInput').addEventListener('keypress', function(e) {
