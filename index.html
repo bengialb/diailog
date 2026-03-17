@@ -655,9 +655,15 @@
             margin-right: 15%;
         }
 
+        .message-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+
         .message-right .message-bubble {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
             border-right: 3px solid var(--accent-right);
+            border-left: none;
             margin-left: 15%;
         }
 
@@ -2117,6 +2123,9 @@ IMPORTANT:
                 conversationHistory.push({ author: leftName, content: cleanLeftResponse });
                 addMessage(leftName, cleanLeftResponse, true);
 
+                // Kullanıcı okusun diye kısa bekleme
+                await new Promise(r => setTimeout(r, 1500));
+
                 // Show typing indicator for right character
                 showTypingIndicator();
 
@@ -2151,6 +2160,9 @@ IMPORTANT:
 
                 conversationHistory.push({ author: rightName, content: cleanRightResponse });
                 addMessage(rightName, cleanRightResponse, false);
+
+                // Sonraki round öncesi bekleme
+                await new Promise(r => setTimeout(r, 1500));
             }
 
             // Debate end
