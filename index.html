@@ -1657,6 +1657,7 @@
 
         let conversationHistory = [];
         let currentRound = 0;
+        let debateRunning = false;
         
         // Get language from localStorage or default to 'en'
         let currentLanguage = localStorage.getItem('diailog_language') || 'en';
@@ -2054,16 +2055,20 @@
         }
 
         async function startDebate() {
+            if (debateRunning) return;
+            debateRunning = true;
             const topic = document.getElementById('topicInput').value.trim();
             if (!topic) {
                 const alertMessage = currentLanguage === 'tr' ? 'Lütfen bir tartışma konusu girin!' : 'Please enter a debate topic!';
                 alert(alertMessage);
+                debateRunning = false;
                 return;
             }
             
             // Check for inappropriate content
             if (checkInappropriateContent(topic)) {
                 showContentWarning();
+                debateRunning = false;
                 return;
             }
 
@@ -2218,6 +2223,7 @@ IMPORTANT:
 
             // Don't auto-scroll - let users read from the beginning
 
+            debateRunning = false;
             document.getElementById('startButton').disabled = false;
             document.getElementById('startButton').innerHTML = currentLanguage === 'tr' ? 'Yeni Tartışma' : 'New Debate';
         }
