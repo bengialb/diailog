@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -436,9 +436,16 @@
             position: relative;
             z-index: 50;
             flex: 1;
-            overflow: hidden;
+            overflow: visible;
             width: 100%;
             max-width: 100%;
+        }
+
+        .form-group:last-child {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .form-group label {
@@ -497,7 +504,7 @@
 
         .character-prompt {
             flex: 1;
-            min-height: 80px;
+            min-height: 140px;
             resize: none;
             font-family: inherit;
             line-height: 1.5;
@@ -1004,7 +1011,8 @@
             }
             
             .character-prompt {
-                height: 80px;
+                height: auto;
+                min-height: 140px;
                 font-size: 0.85em;
             }
             
@@ -1049,9 +1057,10 @@
             }
             
             .character-prompt {
-                height: 90px;
+                height: auto;
+                min-height: 140px;
             }
-            
+
             .header {
                 padding: 12px 20px;
             }
@@ -1156,10 +1165,10 @@
             }
             
             .character-prompt {
-                height: 100px;
+                height: auto;
+                min-height: 140px;
                 font-size: 0.9em;
                 resize: vertical;
-                min-height: 80px;
             }
             
             .character-select,
@@ -1315,10 +1324,10 @@
             }
             
             .character-prompt {
-                height: 90px;
+                height: auto;
+                min-height: 120px;
                 font-size: 0.85em;
                 resize: vertical;
-                min-height: 70px;
                 width: 100%;
                 box-sizing: border-box;
             }
@@ -1512,7 +1521,6 @@
         </div>
         
         <div class="footer">
-            © 2025 Bengi Albukrek
         </div>
     </div>
 
@@ -1730,6 +1738,7 @@
 
         function setLanguage(lang) {
             currentLanguage = lang;
+            document.documentElement.lang = lang;
             const t = translations[lang];
             
             document.getElementById('subtitle').innerHTML = t.subtitle;
