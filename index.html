@@ -783,12 +783,20 @@
             margin: 10px 0;
         }
 
+        .typing-indicator.typing-right {
+            margin-left: auto;
+        }
+
         .typing-dot {
             width: 8px;
             height: 8px;
             background: var(--accent-left);
             border-radius: 50%;
             animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator.typing-right .typing-dot {
+            background: var(--accent-right);
         }
 
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -1965,10 +1973,10 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        function showTypingIndicator() {
+        function showTypingIndicator(isRight = false) {
             const chatMessages = document.getElementById('chatMessages');
             const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
+            typingDiv.className = `typing-indicator${isRight ? ' typing-right' : ''}`;
             typingDiv.id = 'typingIndicator';
             typingDiv.innerHTML = `
                 <div class="typing-dot"></div>
@@ -2123,11 +2131,11 @@ IMPORTANT:
                 conversationHistory.push({ author: leftName, content: cleanLeftResponse });
                 addMessage(leftName, cleanLeftResponse, true);
 
-                // Kullanıcı okusun diye kısa bekleme
-                await new Promise(r => setTimeout(r, 1500));
+                // Kullanıcı okusun diye bekleme
+                await new Promise(r => setTimeout(r, 3000));
 
                 // Show typing indicator for right character
-                showTypingIndicator();
+                showTypingIndicator(true);
 
                 // Right character speaks
                 const rightMessages = [
@@ -2162,7 +2170,7 @@ IMPORTANT:
                 addMessage(rightName, cleanRightResponse, false);
 
                 // Sonraki round öncesi bekleme
-                await new Promise(r => setTimeout(r, 1500));
+                await new Promise(r => setTimeout(r, 3000));
             }
 
             // Debate end
