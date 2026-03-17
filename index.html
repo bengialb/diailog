@@ -2037,11 +2037,29 @@
             // Generate unique anonymous ID
             const anon_id = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             
-            // Log debate start
+            // Log debate start (Google Sheets - legacy)
             try {
                 await logData(anon_id, `${leftName} vs ${rightName}`, topic, `Left: ${leftPrompt.substring(0, 50)}... Right: ${rightPrompt.substring(0, 50)}...`);
             } catch (error) {
                 console.warn('Logging failed:', error);
+            }
+
+            // Save question to database
+            try {
+                const roundsSliderVal = document.getElementById('roundsSlider');
+                await fetch('/api/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic: topic,
+                        leftChar: leftName,
+                        rightChar: rightName,
+                        rounds: parseInt(roundsSliderVal.value),
+                        language: currentLanguage
+                    })
+                });
+            } catch (error) {
+                console.warn('DB log failed:', error);
             }
 
             // Clear and start
@@ -2057,29 +2075,15 @@
             
             const t = translations[currentLanguage];
             
-            // Show loading animation
-            chatMessages.innerHTML = `
-                <div class="debate-loading">
-                    <h3>${t.debateInProgress}</h3>
-                    <div class="debate-spinner"></div>
-                    <div class="debate-progress" id="debateProgress">${t.debateProgress.replace('{current}', '1').replace('{total}', totalMessages)}</div>
-                </div>
-            `;
-
             conversationHistory = [];
             currentRound = 0;
             const responseLanguage = currentLanguage === 'tr' ? 'Turkish' : 'English';
 
-            // Collect all responses first
-            const allMessages = [];
-
-            // Debate loop - collect responses without showing
+            // Debate loop - show each message as it arrives
             for (let round = 0; round < totalRounds / 2; round++) {
-                // Update progress
-                const progressEl = document.getElementById('debateProgress');
-                if (progressEl) {
-                    progressEl.textContent = t.debateProgress.replace('{current}', (round * 2 + 1).toString()).replace('{total}', totalMessages.toString());
-                }
+
+                // Show typing indicator for left character
+                showTypingIndicator();
 
                 // Left character speaks
                 const leftMessages = [
@@ -2096,7 +2100,7 @@ Now respond to what ${rightName} just said. Build upon their arguments, challeng
 
 Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with the discussion.
 
-IMPORTANT: 
+IMPORTANT:
 - Respond in ${responseLanguage} language
 - Do NOT include your character name at the beginning of your response
 - Don't repeat their exact words, but engage with their ideas naturally
@@ -2105,17 +2109,16 @@ IMPORTANT:
                 ];
 
                 const leftResponse = await callClaude(leftMessages);
-                
+                removeTypingIndicator();
+
                 // Clean response - remove character name if it appears at the beginning
                 const cleanLeftResponse = leftResponse.replace(new RegExp(`^${leftName}:\\s*`, 'i'), '');
-                
-                conversationHistory.push({ author: leftName, content: cleanLeftResponse });
-                allMessages.push({ author: leftName, content: cleanLeftResponse, isLeft: true });
 
-                // Update progress
-                if (progressEl) {
-                    progressEl.textContent = t.debateProgress.replace('{current}', (round * 2 + 2).toString()).replace('{total}', totalMessages.toString());
-                }
+                conversationHistory.push({ author: leftName, content: cleanLeftResponse });
+                addMessage(leftName, cleanLeftResponse, true);
+
+                // Show typing indicator for right character
+                showTypingIndicator();
 
                 // Right character speaks
                 const rightMessages = [
@@ -2132,7 +2135,7 @@ Now respond directly to what ${leftName} just said. Address their specific point
 
 Keep your response concise (2-3 sentences max). Stay true to your philosophical stance while engaging meaningfully with ${leftName}'s arguments.
 
-IMPORTANT: 
+IMPORTANT:
 - Respond in ${responseLanguage} language
 - Do NOT include your character name at the beginning of your response
 - Don't repeat their exact words, but engage with their ideas naturally
@@ -2141,19 +2144,14 @@ IMPORTANT:
                 ];
 
                 const rightResponse = await callClaude(rightMessages);
-                
+                removeTypingIndicator();
+
                 // Clean response - remove character name if it appears at the beginning
                 const cleanRightResponse = rightResponse.replace(new RegExp(`^${rightName}:\\s*`, 'i'), '');
-                
-                conversationHistory.push({ author: rightName, content: cleanRightResponse });
-                allMessages.push({ author: rightName, content: cleanRightResponse, isLeft: false });
-            }
 
-            // Now show all messages at once
-            chatMessages.innerHTML = '';
-            allMessages.forEach(msg => {
-                addMessage(msg.author, msg.content, msg.isLeft);
-            });
+                conversationHistory.push({ author: rightName, content: cleanRightResponse });
+                addMessage(rightName, cleanRightResponse, false);
+            }
 
             // Debate end
             const endMessage = document.createElement('div');
