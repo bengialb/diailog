@@ -783,8 +783,9 @@
             margin: 10px 0;
         }
 
-        .typing-indicator.typing-right {
-            margin-left: auto;
+        .typing-right-wrapper {
+            display: flex;
+            justify-content: flex-end;
         }
 
         .typing-dot {
@@ -1983,16 +1984,29 @@
                 <div class="typing-dot"></div>
                 <div class="typing-dot"></div>
             `;
-            chatMessages.appendChild(typingDiv);
+
+            if (isRight) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'typing-right-wrapper';
+                wrapper.id = 'typingWrapper';
+                wrapper.appendChild(typingDiv);
+                chatMessages.appendChild(wrapper);
+            } else {
+                chatMessages.appendChild(typingDiv);
+            }
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         function removeTypingIndicator() {
             const indicator = document.getElementById('typingIndicator');
-            if (indicator) {
+            const wrapper = document.getElementById('typingWrapper');
+            if (wrapper) {
+                wrapper.remove();
+            } else if (indicator) {
                 indicator.remove();
             }
         }
+
 
         function checkInappropriateContent(text) {
             const inappropriateWords = [
